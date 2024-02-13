@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from auth_routes import auth_router
+from routes import routes
 from config import Settings
 from contextlib import asynccontextmanager
 from config import settings
@@ -24,7 +25,7 @@ def create_app():
         lifespan=lifespan
     )
     app.include_router(auth_router)
-
+    app.include_router(routes)
     return app
 
 
