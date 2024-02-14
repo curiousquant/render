@@ -1,5 +1,13 @@
+bcrypt
+click
 fastapi
+h11
+passlib
+pycparser
+pydantic
+PyJWT
+six
+starlette
 uvicorn
-SQLAlchemy
-pydantic_settings
-asyncpg
+jwt
+jinja2
