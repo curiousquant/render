@@ -12,18 +12,18 @@ app = FastAPI()
 
 
 @app.get("/")
-def read_root():
+async def read_root():
     return {"Hello": "World"}
 
 @app.get("/users/")
-def read_item(db:Session = Depends(db.getdb)):
+async def read_item(db:Session = Depends(db.getdb)):
     records = db.query(models.Users).order_by(models.Users.id).all()
     for instance in db.query(models.Users).order_by(models.Users.name).all():
         print(instance.id,instance.name)
     return records
 
 @app.get("/users/{userid}")
-def readuser(userid:str, request:Request,db:Session = Depends(db.getdb)):
+async def readuser(userid:str, request:Request,db:Session = Depends(db.getdb)):
     record = db.query(models.Users).filter_by(name=userid).order_by(models.Users.id).first()
     return record
 
