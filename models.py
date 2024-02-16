@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import UUID
+from sqlalchemy import UUID, ForeignKey
 from uuid import uuid4
 from datetime import datetime
 from db import Base
-
+from sqlalchemy import Column,Integer,String, Sequence
+from sqlalchemy.orm import relationship
 
 class User(Base):
     """
@@ -24,3 +25,19 @@ class User(Base):
 
     def __str__(self):
         return f"<User {self.email}>"
+
+class Users(Base):
+    __tablename__ = "user"
+
+    id = Column(Integer,primary_key=True)
+    name = Column(String)
+    
+class Address(Base):
+    __tablename__ = "addresses"
+    id = Column(Integer,primary_key=True)
+    user_id = Column(Integer,ForeignKey("user.id"))
+    address = Column(String)
+    users = relationship("User",back_populates="addresses")
+
+
+
