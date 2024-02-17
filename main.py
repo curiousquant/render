@@ -12,7 +12,7 @@ app = FastAPI()
 
 
 @app.get("/")
-async def read_root():
+def read_root():
     return {"Hello": "World"}
 
 @app.get("/users")
@@ -23,12 +23,12 @@ def read_item(db:Session = Depends(db.getdb)):
     return records
 
 @app.get("/users/{userid}")
-async def readuser(userid:int, request:Request,db:Session = Depends(db.getdb)):
+def readuser(userid:int, request:Request,db:Session = Depends(db.getdb)):
     record = db.query(models.Users).filter_by(id=userid).order_by(models.Users.id).first()
     return record
 
 @app.post("/users")
-async def postuser(user:schemas.Users,db:Session = Depends(db.getdb)):
+def postuser(user:schemas.Users,db:Session = Depends(db.getdb)):
     print(user)
     name = user.name
     db.add(models.Users(name=name))
