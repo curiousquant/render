@@ -33,9 +33,10 @@ async def read_user(userid:int,db:AsyncSession = Depends(db.get_session)):
     return result.scalars().all()
 
 @routes.post("/users")
-async def postuser(user:schemas.Users,db:Session = Depends(db.get_session)):
+async def postuser(user:schemas.Users,db:AsyncSession = Depends(db.get_session)):
     print(user)
-    name = user.name
-    db.add(models.Users(name=name))
-    db.commit()
+    async with db() as session:
+        name = user.name
+        session.add(models.Users(name=name))
+        await session.commit()
     return user
