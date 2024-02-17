@@ -32,12 +32,12 @@ class Users(Base):
     id = Column(Integer,primary_key=True)
     name = Column(String)
     
-class Address(Base):
-    __tablename__ = "addresses"
-    id = Column(Integer,primary_key=True)
-    user_id = Column(Integer,ForeignKey("user.id"))
-    address = Column(String)
-    users = relationship("User",back_populates="addresses")
+# class Address(Base):
+#     __tablename__ = "addresses"
+#     id = Column(Integer,primary_key=True)
+#     user_id = Column(Integer,ForeignKey("user.id"))
+#     address = Column(String)
+#     users = relationship("User",back_populates="addresses")
 
 
 

@@ -23,8 +23,8 @@ def read_item(db:Session = Depends(db.getdb)):
     return records
 
 @app.get("/users/{userid}")
-async def readuser(userid:str, request:Request,db:Session = Depends(db.getdb)):
-    record = db.query(models.Users).filter_by(name=userid).order_by(models.Users.id).first()
+async def readuser(userid:int, request:Request,db:Session = Depends(db.getdb)):
+    record = db.query(models.Users).filter_by(id=userid).order_by(models.Users.id).first()
     return record
 
 @app.post("/users")
@@ -35,17 +35,17 @@ async def postuser(user:schemas.Users,db:Session = Depends(db.getdb)):
     db.commit()
     return user
 
-@app.get("/address")
-async def getaddress(db:Session=Depends(db.getdb)):
-    print(models.Users)
-    records = db.query(models.Users).first()
+# @app.get("/address")
+# async def getaddress(db:Session=Depends(db.getdb)):
+#     print(models.Users)
+#     records = db.query(models.Users).first()
     
-    print(records)
-    return records
+#     print(records)
+#     return records
 
-@app.get("/address/{userid}")
-async def getuseraddress(userid:str,db:Session=Depends(db.getdb)):
-    record = db.query(models.Address).filter_by(user_id=userid)
-    return record
+# @app.get("/address/{userid}")
+# async def getuseraddress(userid:str,db:Session=Depends(db.getdb)):
+#     record = db.query(models.Address).filter_by(user_id=userid)
+#     return record
 if __name__=='__main__':
     uvicorn.run("main:app", reload=True)
