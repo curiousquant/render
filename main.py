@@ -6,6 +6,8 @@ import models
 import db
 import schemas
 from sqlalchemy.orm import Session
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 Base.metadata.create_all(engine)
 app = FastAPI()
@@ -16,11 +18,16 @@ def read_root():
     return {"Hello": "World"}
 
 @app.get("/users")
-def read_item(db:Session = Depends(db.getdb)):
-    records = db.query(models.Users).order_by(models.Users.id).all()
-    for instance in db.query(models.Users).order_by(models.Users.name).all():
-        print(instance.id,instance.name)
-    return records
+async def read_item(db:AsyncSession = Depends(db.getdb)):
+    async with db() as session:
+        stmt = select(models.Users)
+        result = await session.execute(stmt)
+    await session.commit()
+
+    # records = db.query(models.Users).order_by(models.Users.id).all()
+    # for instance in db.query(models.Users).order_by(models.Users.name).all():
+    #     print(instance.id,instance.name)
+    return result
 
 @app.get("/users/{userid}")
 def readuser(userid:int, request:Request,db:Session = Depends(db.getdb)):

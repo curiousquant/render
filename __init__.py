@@ -11,7 +11,7 @@ from db import init_db
 
 # lifespan code
 
-@app.on_event("startup")
+@asynccontextmanager
 async def lifespan(app:FastAPI):
     await init_db()
 
