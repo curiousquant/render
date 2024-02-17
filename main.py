@@ -15,8 +15,8 @@ app = FastAPI()
 async def read_root():
     return {"Hello": "World"}
 
-@app.get("/users/")
-async def read_item(db:Session = Depends(db.getdb)):
+@app.get("/users")
+def read_item(db:Session = Depends(db.getdb)):
     records = db.query(models.Users).order_by(models.Users.id).all()
     for instance in db.query(models.Users).order_by(models.Users.name).all():
         print(instance.id,instance.name)
