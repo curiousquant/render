@@ -14,7 +14,7 @@ from db import init_db
 @asynccontextmanager
 async def lifespan(app:FastAPI):
     await init_db()
-
+    
     yield
 
 def create_app():
