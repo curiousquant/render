@@ -4,3 +4,4 @@ SQLAlchemy
 pydantic_settings
 asyncpg
 psycopg2
+jinja2
