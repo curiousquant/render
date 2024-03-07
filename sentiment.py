@@ -1,12 +1,12 @@
 #https://www.kaggle.com/code/robikscube/sentiment-analysis-python-youtube-tutorial
 
 import pandas as pd
-# import nltk
-# nltk.download('vader_lexicon')
-# nltk.download('punkt')
-# nltk.download('averaged_perceptron_tagger')
-# nltk.download('maxent_ne_chunker')
-# nltk.download('words')
+import nltk
+nltk.download('vader_lexicon')
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
 from nltk.sentiment import SentimentIntensityAnalyzer
 from tqdm.notebook import tqdm
 import requests
