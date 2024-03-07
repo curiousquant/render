@@ -14,6 +14,12 @@ from db import init_db
 
 @asynccontextmanager
 async def lifespan(app:FastAPI):
+    import nltk
+    nltk.download('vader_lexicon')
+    nltk.download('punkt')
+    nltk.download('averaged_perceptron_tagger')
+    nltk.download('maxent_ne_chunker')
+    nltk.download('words')
     await init_db()
     
     yield
