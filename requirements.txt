@@ -6,3 +6,8 @@ asyncpg
 psycopg2
 jinja2
 python-multipart
+homeharvest
+matplotlib
+nltk
+seaborn
+vaderSentiment

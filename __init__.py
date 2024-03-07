@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import uvicorn
 from auth_routes import auth_router
 from routes import routes
 from config import Settings
@@ -30,3 +31,6 @@ def create_app():
 
 
 app = create_app()
+
+if __name__=='__main__':
+    uvicorn.run("__init__:app", reload=True)

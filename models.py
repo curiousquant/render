@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import UUID, ForeignKey
+from sqlalchemy import UUID, DateTime, Double, ForeignKey
 from uuid import uuid4
 from datetime import datetime
 from db import Base
@@ -31,6 +31,20 @@ class Users(Base):
 
     id = Column(Integer,primary_key=True)
     name = Column(String)
+    
+class Headlines(Base):
+    __tablename__ = "headline"
+    id = Column(Integer,primary_key=True)
+    title = Column(String,unique=True)
+    published_date = Column(DateTime(timezone=True))
+
+class Score(Base):
+    __tablename__="score"
+    id = Column(Integer,ForeignKey(Headlines.id),primary_key=True)
+    neg = Column(Double)
+    pos = Column(Double)
+    neu = Column(Double)
+    compound = Column(Double)
     
 # class Address(Base):
 #     __tablename__ = "addresses"

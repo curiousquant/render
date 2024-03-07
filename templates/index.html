@@ -10,13 +10,13 @@
         <h1>{{name}}</h1>
         <table class="table">
             <tr>
-                <td>name</td>
-                <td>type</td>
+                <td>News</td>
+                <td>Score</td>
             </tr>
-            {%for i in dogs%}
+            {%for i in dictdata%}
             <tr>
-                <td>{{i.name}}</td>
-                <td>{{i.type}}</td>
+                    <td>{{i[0].title }}</td>
+                    <td>{{i[1].compound}}</td>
             </tr>
             {%endfor%}
         </table>
@@ -26,6 +26,11 @@
             <label for="password">Password:</label>
             <input type="text" id="password" name="password"><br><br>
             <input type="submit" value="Submit">
+        </form>
+
+        <form action="/" method="post">
+            <label for="refresh">Refresh Data</label>
+            <input type="submit" value="Refresh">
         </form>
     </div>
     
