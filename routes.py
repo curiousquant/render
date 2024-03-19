@@ -47,7 +47,7 @@ async def home(request: Request,db:AsyncSession = Depends(db.get_session)):
         stmt = select(models.Headlines,models.Score).join(models.Score)
         result = await session.execute(stmt)
         res = result.all()
-
+        
     return templates.TemplateResponse("index.html",{"request":request,"name":"title compound","dictdata":res})
 
 @routes.post("/")

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 from auth_routes import auth_router
+from stock_routes import stock_router
 from routes import routes
 from config import Settings
 from contextlib import asynccontextmanager
@@ -33,6 +34,7 @@ def create_app():
     )
     app.include_router(auth_router)
     app.include_router(routes)
+    app.include_router(stock_router)
     return app
 
 

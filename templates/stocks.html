@@ -11,26 +11,24 @@
         <h1>{{name}}</h1>
         <table class="table">
             <tr>
-                <td>News</td>
+                <td>Title</td>
+                <td>Related Tickers</td>
                 <td>Score</td>
+                <td>Published Time</td>
             </tr>
             {%for i in dictdata%}
             <tr>
                     <td>{{i[0].title }}</td>
+                    <td>{{i[0].relatedTickers}}</td>
                     <td>{{i[1].compound}}</td>
+                    <td>{{i[0].providerPublishTime}}</td>
             </tr>
             {%endfor%}
         </table>
-        <form action="/login/" method="post">
-            <label for="username">User name:</label>
-            <input type="text" id="uname" name="username"><br><br>
-            <label for="password">Password:</label>
-            <input type="text" id="password" name="password"><br><br>
-            <input type="submit" value="Submit">
-        </form>
 
-        <form action="/" method="post">
+        <form action="/stocks" method="post">
             <label for="refresh">Refresh Data</label>
+            <input type="text" id="ticker" name="ticker"><br><br>
             <input type="submit" value="Refresh">
         </form>
     </div>

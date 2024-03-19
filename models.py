@@ -53,5 +53,18 @@ class Score(Base):
 #     address = Column(String)
 #     users = relationship("User",back_populates="addresses")
 
+class YFinanceNews(Base):
+    __tablename__="yfinancenews"
+    id = Column(Integer,primary_key=True)
+    title=Column(String,unique=True)
+    relatedTickers=Column(String)
+    providerPublishTime=Column(DateTime(timezone=True))
 
+class YFinanceScore(Base):
+    __tablename__="yfinancescore"
+    id = Column(Integer,ForeignKey(YFinanceNews.id),primary_key=True)
+    neg = Column(Double)
+    neu = Column(Double)
+    pos = Column(Double)
+    compound = Column(Double)
 
