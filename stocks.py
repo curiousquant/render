@@ -3,6 +3,12 @@ import yfinance as yf
 from datetime import date
 import datetime
 import pandas as pd
+import nltk
+nltk.download('vader_lexicon')
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
 from nltk.sentiment import SentimentIntensityAnalyzer
 
 sia = SentimentIntensityAnalyzer()
