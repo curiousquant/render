@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Form, Request, FastAPI, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
-from sqlalchemy import select
+from sqlalchemy import and_, select
 from sqlalchemy.orm import Session
 import db
 import models
@@ -36,10 +36,13 @@ async def stockhome(request: Request,db:AsyncSession = Depends(db.get_session)):
         result = result.scalars().all()
         result2 = result2.scalars().all()
         #print((result))
-
+    
         stmt = select(models.YFinanceNews,models.YFinanceScore).join(models.YFinanceScore)
+        stmt = select(models.YFinanceNews,models.YFinanceScore,models.YFinanceStockPrice).join(models.YFinanceScore).outerjoin(models.YFinanceStockPrice,and_(models.YFinanceStockPrice.date==models.YFinanceNews.providerPublishTime,models.YFinanceStockPrice.ticker==models.YFinanceNews.ticker))
+
         result = await session.execute(stmt)
         res = result.all()
+        print(res)
         
     return templates.TemplateResponse("stocks.html",{"request":request,"name":"title compound","dictdata":res})
 
@@ -48,6 +51,7 @@ async def stockhome(request: Request,db:AsyncSession = Depends(db.get_session)):
 async def refresh(request:Request,ticker: str = Form(...), db:AsyncSession = Depends(db.get_session)):
     data = stocks.readData(ticker)
     df = stocks.scoreData(data)
+    stock = stocks.getPrice(ticker)
     async with db() as session:
         for i in range(len(df)):
             title = df.loc[i,'title']
@@ -58,16 +62,20 @@ async def refresh(request:Request,ticker: str = Form(...), db:AsyncSession = Dep
             pos = df.loc[i,'pos']
             neu = df.loc[i,'neu']
             compound = df.loc[i,'compound']
-            published_date = datetime.fromtimestamp(time)
+            published_date = datetime(*datetime.fromtimestamp(time).timetuple()[:3]) 
+            stockDate = datetime(*datetime.now().timetuple()[:3])
+            stockPrice = stock
             try:
-                m = models.YFinanceNews(title=title,providerPublishTime=published_date,relatedTickers=relatedTickers)
+                m = models.YFinanceNews(title=title,ticker=ticker,providerPublishTime=published_date,relatedTickers=relatedTickers)
                 session.add(m)
                 await session.commit()
             
                 session.add(models.YFinanceScore(id=m.id,neg=neg,pos=pos,neu=neu,compound=compound))
                 await session.commit()
 
-                
+                session.add(models.YFinanceStockPrice(ticker=ticker,date=stockDate,price=stockPrice))
+                await session.commit()
+
             except Exception as e:
                 print(e)
 

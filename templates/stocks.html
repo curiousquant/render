@@ -14,6 +14,7 @@
                 <td>Title</td>
                 <td>Related Tickers</td>
                 <td>Score</td>
+                <td>Stock Price</td>
                 <td>Published Time</td>
             </tr>
             {%for i in dictdata%}
@@ -21,6 +22,7 @@
                     <td>{{i[0].title }}</td>
                     <td>{{i[0].relatedTickers}}</td>
                     <td>{{i[1].compound}}</td>
+                    <td>{{i[2].price}}</td>
                     <td>{{i[0].providerPublishTime}}</td>
             </tr>
             {%endfor%}

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import UUID, DateTime, Double, ForeignKey
+from sqlalchemy import UUID, DateTime, Double, ForeignKey, UniqueConstraint
 from uuid import uuid4
 from datetime import datetime
 from db import Base
@@ -56,6 +56,7 @@ class Score(Base):
 class YFinanceNews(Base):
     __tablename__="yfinancenews"
     id = Column(Integer,primary_key=True)
+    ticker=Column(String)
     title=Column(String,unique=True)
     relatedTickers=Column(String)
     providerPublishTime=Column(DateTime(timezone=True))
@@ -67,4 +68,13 @@ class YFinanceScore(Base):
     neu = Column(Double)
     pos = Column(Double)
     compound = Column(Double)
+
+class YFinanceStockPrice(Base):
+    __tablename__="yfinancestockprice"  
+    __table_args__ = (UniqueConstraint('ticker', 'date'),)
+
+    id = Column(Integer,primary_key=True)
+    ticker = Column(String,)
+    date = Column(DateTime(timezone=True))
+    price = Column(Double)    
 

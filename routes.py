@@ -17,13 +17,6 @@ routes = APIRouter(
     prefix="", responses={400: {"description": "Not found"}}, tags=["auth"]
 )
 
-async def read_item(request:Request,db:AsyncSession = Depends(db.get_session)):
-    async with db() as session:
-        stmt = select(models.Users)
-        result = await session.execute(stmt) 
-
-    return templates.TemplateResponse("users.html",{"request":request,"name":"First Last","result":result.scalars().all()})
-
 
 
 @routes.get("/")

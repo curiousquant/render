@@ -1,5 +1,6 @@
 
 import yfinance as yf
+from datetime import date
 import datetime
 import pandas as pd
 from nltk.sentiment import SentimentIntensityAnalyzer
@@ -27,5 +28,13 @@ def scoreData(df):
     vaders = pd.concat([df[['title','providerPublishTime','relatedTickers']],vaders],axis=1)
     return vaders
 
+def getPrice(ticker,start:datetime=datetime.datetime(2021,1,1),end:datetime=datetime.datetime(2021,1,21)):
+    #ts = yf.download(ticker,date.today(),date.today())
+    price = yf.Ticker(ticker).history(period='1d')['Close'][0]
+    print(type(price))
+    print(price)
+    return price
+
 d=readData("MSFT")
-print(scoreData(d))
+print(getPrice("MSFT"))
+
