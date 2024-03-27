@@ -78,3 +78,9 @@ class YFinanceStockPrice(Base):
     date = Column(DateTime(timezone=True))
     price = Column(Double)    
 
+class Vasicek(Base):
+    __tablename__="vasicek"
+    id = Column(Integer,primary_key=True)
+    date = Column(Integer)
+    rate = Column(Double)
+    
