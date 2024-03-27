@@ -9,7 +9,7 @@ def gen_paths(X0, theta, mu, sigma, T, num_steps, num_sims):
     for t in range(1, num_steps + 1):
         rand = np.random.standard_normal(num_sims)
         paths[t,:] = paths[t-1,:] * np.exp(-theta * dt) + (mu - (sigma ** 2) / (2 * theta)) * (1 - np.exp(-theta * dt)) + np.sqrt((1 - np.exp(-2 * theta * dt)) * (sigma ** 2) / (2 * theta)) * rand
-        print(paths[t,:] )
+        #print(paths[t,:] )
     return paths
 
 # parms = {

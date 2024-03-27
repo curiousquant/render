@@ -40,7 +40,7 @@ async def stockhome(request: Request,
         #print((result))
     
         stmt = select(models.YFinanceNews,models.YFinanceScore).join(models.YFinanceScore)
-        stmt = select(models.YFinanceNews,models.YFinanceScore,models.YFinanceStockPrice).join(models.YFinanceScore).outerjoin(models.YFinanceStockPrice,and_(models.YFinanceStockPrice.date==models.YFinanceNews.providerPublishTime,models.YFinanceStockPrice.ticker==models.YFinanceNews.ticker))
+        stmt = select(models.YFinanceNews,models.YFinanceScore,models.YFinanceStockPrice).outerjoin(models.YFinanceScore).outerjoin(models.YFinanceStockPrice,and_(models.YFinanceStockPrice.date==models.YFinanceNews.providerPublishTime,models.YFinanceStockPrice.ticker==models.YFinanceNews.ticker)).order_by(models.YFinanceStockPrice.date.desc())
 
         result = await session.execute(stmt)
         res = result.all()
@@ -61,8 +61,29 @@ async def stockhome(request: Request,
         y = []
         for i in range(paths.shape[1]):
             y.append(list(paths[:,i]))
-        
-    return templates.TemplateResponse("stocks.html",{"request":request,"dictdata":res,"y":y,"x": x})
+            
+        print(res[0][2])
+        tickers = []
+        for i in range(len(res)):
+            if not res[i][2] is None:
+                tick = res[i][2].ticker
+                if not tick in tickers:
+                    tickers.append(tick)
+        ystocks = []
+        #tickers = ['MSFT']
+        for ticker in tickers:
+            stockprices =[]
+            for i in range(len(res)):
+                if not res[i][2]==None and res[i][2].ticker == ticker:
+                    stockprice = res[i][2].price
+                    stockprices.append(stockprice)
+            ystocks.append(stockprices)
+        xlabel_len =0
+        for i in range(len(ystocks)):
+            xlabel_len = max(xlabel_len,len(ystocks[i]))
+        xlabel = list(range(xlabel_len))
+        yzip = zip(ystocks,tickers)
+    return templates.TemplateResponse("stocks.html",{"request":request,"dictdata":res,"y":y,"x": x,"yzip":yzip,"xlabel":xlabel})
 
 @stock_router.post("/gen_path")
 async def gen_path(request:Request,X0: float = Form(...),theta: float = Form(...),mu: float = Form(...),sigma: float = Form(...),T: float = Form(...),num_steps: int = Form(...),num_sims: int = Form(...),db:AsyncSession = Depends(db.get_session)):
@@ -83,12 +104,13 @@ async def gen_path(request:Request,X0: float = Form(...),theta: float = Form(...
         for i in range(paths.shape[1]):
             y.append(list(paths[:,i]))
         
-        print(x,y)
-        print(paths)
+        #print(x,y)
+        #   print(paths)
+            
     except Exception as e:
         print(e)
     
-    return templates.TemplateResponse("stocks.html",{"request":request,"x":x,"y":y})
+    return templates.TemplateResponse("vasicek.html",{"request":request,"x":x,"y":y})
 @stock_router.post("/")
 async def refresh(request:Request,ticker: str = Form(...), db:AsyncSession = Depends(db.get_session)):
     data = stocks.readData(ticker)

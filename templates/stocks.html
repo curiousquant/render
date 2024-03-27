@@ -7,18 +7,15 @@
 </head>
 <body>
     <div>
-        <h1>Vasicek Simulation</h1>
-        <canvas id="myChart"></canvas>
+        <h1>Stock Sentiment</h1>
+        <canvas id="myChart2"></canvas>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       
-        <script>
-        Chart.defaults.plugins.legend.display = false;
-        const ctx = document.getElementById('myChart');
-        const xValues = {{x}};
-        const yValues = [7,8,8,9,9,9,10,11,14,14,15];
-        new Chart(ctx, {
+    <script>
+        const ctx2 = document.getElementById('myChart2');
+        new Chart(ctx2, {
             type: 'line',
             options: {
                 legend: {
@@ -29,23 +26,26 @@
                 }
             },
             data: {
-                labels: xValues,
-                
+                labels:{{xlabel}},
                 datasets: [
-                    {%for i in y%}
-                    {data: {{i}} },
+                    {%for y,ylabel in yzip%}
+                    {
+                        label:'{{ylabel}}',
+                        data: {{y}} 
+                    },
                     {%endfor%}
                     ]
                 
             }
             
         });
-        </script>
+    </script>
     <div>
         
         <h1>{{name}}</h1>
         <table class="table">
             <tr>
+                <td>Ticker</td>
                 <td>Title</td>
                 <td>Related Tickers</td>
                 <td>Score</td>
@@ -54,6 +54,7 @@
             </tr>
             {%for i in dictdata%}
             <tr>
+                    <td>{{i[0].ticker}}</td>
                     <td>{{i[0].title }}</td>
                     <td>{{i[0].relatedTickers}}</td>
                     <td>{{i[1].compound}}</td>
@@ -63,23 +64,6 @@
             {%endfor%}
         </table>
 
-        <form action="/stocks/gen_path" method="post">
-            <label for="X0">X0</label><br>
-            <input type="number" id="X0" name="X0"><br><br>
-            <label for="theta">theta</label><br>
-            <input type="number" id="theta" name="theta"><br><br>
-            <label for="mu">mu</label><br>
-            <input type="number" id="mu" name="mu"><br><br>
-            <label for="sigma">sigma</label><br>
-            <input type="number" id="sigma" name="sigma"><br><br>
-            <label for="T">time</label><br>
-            <input type="number" id="T" name="T"><br><br>
-            <label for="num_steps">number of steps</label><br>
-            <input type="number" id="num_steps" name="num_steps"><br><br>
-            <label for="num_sims">number of simulations</label><br>
-            <input type="number" id="num_sims" name="num_sims"><br><br>
-            <input type="submit" value="gen_path">
-        </form>
         <form action="/stocks/" method="post">
             <label for="ticker">Ticker</label><br>
             <input type="text" id="ticker" name="ticker"><br><br>
@@ -87,6 +71,24 @@
         </form>
     </div>
     
+
+    <form action="/stocks/gen_path" method="post">
+        <label for="X0">X0</label><br>
+        <input type="number" id="X0" name="X0"><br><br>
+        <label for="theta">theta</label><br>
+        <input type="number" id="theta" name="theta"><br><br>
+        <label for="mu">mu</label><br>
+        <input type="number" id="mu" name="mu"><br><br>
+        <label for="sigma">sigma</label><br>
+        <input type="number" id="sigma" name="sigma"><br><br>
+        <label for="T">time</label><br>
+        <input type="number" id="T" name="T"><br><br>
+        <label for="num_steps">number of steps</label><br>
+        <input type="number" id="num_steps" name="num_steps"><br><br>
+        <label for="num_sims">number of simulations</label><br>
+        <input type="number" id="num_sims" name="num_sims"><br><br>
+        <input type="submit" value="gen_path">
+    </form>
 
 </body>
 </html>

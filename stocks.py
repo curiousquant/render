@@ -41,6 +41,4 @@ def getPrice(ticker,start:datetime=datetime.datetime(2021,1,1),end:datetime=date
     print(price)
     return price
 
-d=readData("MSFT")
-print(getPrice("MSFT"))
 
