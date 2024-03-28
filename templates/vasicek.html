@@ -75,26 +75,22 @@
 
         <form action="/stocks/gen_path" method="post">
             <label for="X0">X0</label><br>
-            <input type="number" id="X0" name="X0"><br><br>
+            <input type="number" id="X0" name="X0" step="any" value=.1><br><br>
             <label for="theta">theta</label><br>
-            <input type="number" id="theta" name="theta"><br><br>
+            <input type="number" id="theta" name="theta" step="any" value=.1><br><br>
             <label for="mu">mu</label><br>
-            <input type="number" id="mu" name="mu"><br><br>
+            <input type="number" id="mu" name="mu" step="any" value=.1><br><br>
             <label for="sigma">sigma</label><br>
-            <input type="number" id="sigma" name="sigma"><br><br>
+            <input type="number" id="sigma" name="sigma" step="any" value=.1><br><br>
             <label for="T">time</label><br>
-            <input type="number" id="T" name="T"><br><br>
+            <input type="number" id="T" name="T" step="any" value=1><br><br>
             <label for="num_steps">number of steps</label><br>
-            <input type="number" id="num_steps" name="num_steps"><br><br>
+            <input type="number" id="num_steps" name="num_steps" step="any" value=5><br><br>
             <label for="num_sims">number of simulations</label><br>
-            <input type="number" id="num_sims" name="num_sims"><br><br>
+            <input type="number" id="num_sims" name="num_sims" step="any" value=5><br><br>
             <input type="submit" value="gen_path">
         </form>
-        <form action="/stocks/" method="post">
-            <label for="ticker">Ticker</label><br>
-            <input type="text" id="ticker" name="ticker"><br><br>
-            <input type="submit" value="stocks">
-        </form>
+      
     </div>
     
 

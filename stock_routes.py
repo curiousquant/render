@@ -111,6 +111,33 @@ async def gen_path(request:Request,X0: float = Form(...),theta: float = Form(...
         print(e)
     
     return templates.TemplateResponse("vasicek.html",{"request":request,"x":x,"y":y})
+@stock_router.get("/gen_path")
+async def get_path(request:Request,db:AsyncSession = Depends(db.get_session)):
+    parms = {
+            'X0' : 1,
+            'theta' : .1,
+            'mu' : .1,
+            'sigma' : .1,
+            'T':1,
+            'num_steps' : 5,
+            'num_sims':5
+            }
+    try:
+        print("HI")
+        paths = simulation.gen_paths(**parms)
+        x = list(range(paths.shape[0]))
+        y = []
+        for i in range(paths.shape[1]):
+            y.append(list(paths[:,i]))
+        
+        #print(x,y)
+        #   print(paths)
+            
+    except Exception as e:
+        print(e)
+    
+    return templates.TemplateResponse("vasicek.html",{"request":request,"x":x,"y":y})
+
 @stock_router.post("/")
 async def refresh(request:Request,ticker: str = Form(...), db:AsyncSession = Depends(db.get_session)):
     data = stocks.readData(ticker)
