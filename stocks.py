@@ -36,9 +36,13 @@ def scoreData(df):
 
 def getPrice(ticker,start:datetime=datetime.datetime(2021,1,1),end:datetime=datetime.datetime(2021,1,21)):
     #ts = yf.download(ticker,date.today(),date.today())
-    price = yf.Ticker(ticker).history(period='1d')['Close'][0]
-    print(type(price))
-    print(price)
+    price = None
+    try:
+        price = yf.Ticker(ticker).history(period='1d')['Close'][0]
+        print(type(price))
+        print(price)
+    except Exception as e:
+        print(e)
     return price
 
 
