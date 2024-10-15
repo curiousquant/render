@@ -62,7 +62,7 @@ async def stockhome(request: Request,
         for i in range(paths.shape[1]):
             y.append(list(paths[:,i]))
             
-        print(res[0][2])
+        #print(res[0][2])
         tickers = []
         for i in range(len(res)):
             if not res[i][2] is None:
